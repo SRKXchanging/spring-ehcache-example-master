@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableJpaRepositories(basePackages = "com.techprimers.cache.repository")
 @EnableCaching
@@ -17,11 +16,11 @@ public class EhCacheConfiguration {
 
     @Bean
     public CacheManager cacheManager() {
-        return new EhCacheCacheManager(cacheMangerFactory().getObject());
+        return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
     }
 
-    @Bean(name="entityManagerFactory")
-    public EhCacheManagerFactoryBean cacheMangerFactory() {
+    @Bean
+    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
         EhCacheManagerFactoryBean bean = new EhCacheManagerFactoryBean();
         bean.setConfigLocation(new ClassPathResource("ehcache.xml"));
         bean.setShared(true);
